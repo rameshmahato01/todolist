@@ -1,0 +1,94 @@
+{% load static %}
+
+<div class="container">
+  <ul class="nav justify-content-between">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'createView' %}">
+        <img src="{% static 'img/new.png' %}" alt="not found" />
+      </a>
+    </li>
+
+    <div></div>
+
+    <!-- 🔥 Title + Profile Image -->
+    <li class="nav-item d-flex align-items-center">
+      {% if request.user.image %}
+      <img src="{{ request.user.image.url }}" width="50" height="50" />
+      {% else %}
+      <img src="/static/default.png" />
+      {% endif %}
+
+      <h2 class="mb-0">To-do App</h2>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link disabled text-dark" aria-disabled="true">
+        {{ request.user.profile.score }}
+        <img src="{% static 'img/point.png' %}" alt="not found" />
+      </a>
+    </li>
+  </ul>
+
+  <br />
+
+  <table class="table">
+    <thead>
+      <tr class="table-dark">
+        <th scope="col">#</th>
+        <th scope="col">Profile</th>
+        <th scope="col">Title</th>
+        <th scope="col">Status</th>
+        <th scope="col">Description</th>
+        <th scope="col">Created at</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for todo in data %} {% if todo.is_available %}
+      <tr class="table-danger">{% else %}</tr>
+
+      <tr class="table-success">
+        {% endif %}
+        <th scope="row">{{ forloop.counter }}-</th>
+        <td>
+          <a href="{{ todo.get_absolute_url }}">{{ todo.title|title }}</a>
+        </td>
+        <td>
+          <a href="{{ todo.get_absolute_url }}">{{ todo.status|title }}</a>
+        </td>
+        <td>
+          <a href="{{ todo.get_absolute_url }}">{{ todo.description|title }}</a>
+        </td>
+        <td>
+          <a href="{{ todo.get_absolute_url }}">{{ todo.created_at|title }}</a>
+        </td>
+        <td>
+          {# <a href="{{ request.user.image.url }}">{{ todo.image|title }}</a> #}
+         <img src="{{ request.user.image.url }}" width="50" height="50" />
+        </td>
+
+        <td>
+          <a href="{% url 'editView' todo.id %}">
+            <img src="{% static 'img/edit.png' %}" alt="not found" />
+          </a>
+        </td>
+        <td>
+          <a href="{% url 'deleteTodoListview' todo.id %}">
+            <img src="{% static 'img/trash.png' %}" alt="not found" />
+          </a>
+        </td>
+      </tr>
+
+      {% empty %}
+      <tr class="table-secondary">
+        <th scope="row">1-</th>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
