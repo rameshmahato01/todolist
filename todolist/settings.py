@@ -27,7 +27,10 @@ SECRET_KEY = 'django-insecure-oav@xzwtc$u%)a9^ux)b4q6mzqp^#x06ccwfqw#j$0h8u!x2ei
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['todolist-c8me.onrender.com']
+CSRF_TRUSTED_ORIGINS = [
+    "https://todolist-c8me.onrender.com"
+]
 
 
 # Application definition
